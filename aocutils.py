@@ -185,14 +185,14 @@ class Grid:
             return self._neighbors(Point((x,y)),self._dirs,validate)
         return self._neighbors(Point((x,y)),self._dirs[:4],validate)
 
-    def display(self):
+    def display(self, blank=' '):
         for y in range(self.ymax,self.ymin-1,-1):
             out = ''
             for x in range(self.xmin,self.xmax + 1):
                 if (x,y) in self.raster:
                     out += str(self.raster[(x,y)])
                 else:
-                    out += ' '
+                    out += blank
             print(out)
 
 class HexGrid(Grid):
