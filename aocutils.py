@@ -185,8 +185,21 @@ class Grid:
             return self._neighbors(Point((x,y)),self._dirs,validate)
         return self._neighbors(Point((x,y)),self._dirs[:4],validate)
 
-    def display(self, blank=' '):
-        for y in range(self.ymax,self.ymin-1,-1):
+    def display(self, blank=' ', vflip = False):
+        """
+        Display the grid.
+        Always shows a rectangle which is exactly large enough to
+        contain all cells with data.
+        Blank cells are displayed with a space, unless blank is set.
+        By default, higher the y axis increases upwards, like in math.
+        If vflip is True, the y axis increases downwards.
+        """
+        if vflip:
+            rows = range(self.ymin, self.ymax+1)
+        else:
+            rows = range(self.ymax,self.ymin-1,-1)
+
+        for y in rows:
             out = ''
             for x in range(self.xmin,self.xmax + 1):
                 if (x,y) in self.raster:
@@ -292,16 +305,16 @@ if __name__ == '__main__':
     dots = [(-1,2),(0,2),(1,2),(-2,1),(-2,0),(-2,-1),
             (2,1),(2,0),(2,-1),(-1,-2),(0,-2),(1,-2)]
     for p in dots:
-        g[p] = '.'
+        g[p] = '*'
     nose = Point(0,-1)
     g[nose] = 'U'
     g.display()
 
     dotcount = 0
     for p in g:
-        if g[p] == '.':
+        if g[p] == '*':
             dotcount += 1
-    print 'There are %d dots.' % dotcount
+    print 'There are %d stars.' % dotcount
     assert(dotcount == len(dots))
 
     assert(g[nose] == 'U')
@@ -311,6 +324,9 @@ if __name__ == '__main__':
     nosenbrs = tuple([len(g.neighbors(nose,diag)) for diag in [False,True]])
     print 'nose U has %d cardinal and %d diagonal neighbors.' % nosenbrs
     assert((1,5) == nosenbrs)
+
+    print 'here it is upside down and shaded in with .s'
+    g.display(blank='.', vflip=True)
 
     # HexGrid, HexPoint
     print '-'*20
