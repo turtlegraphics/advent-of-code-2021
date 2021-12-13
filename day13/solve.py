@@ -32,9 +32,8 @@ for line in inputlines:
 def printpoints(points):
     g = aocutils.Grid()
     for p in points:
-        (x,y)= p
-        g[(x,-y)] = '#'
-    g.display(blank='.')
+        g[p] = '#'
+    g.display(blank='.',vflip=True)
 
 def fold(points, axis, where):
     newpoints = []
