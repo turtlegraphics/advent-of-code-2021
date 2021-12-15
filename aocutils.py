@@ -185,7 +185,23 @@ class Grid:
             return self._neighbors(Point((x,y)),self._dirs,validate)
         return self._neighbors(Point((x,y)),self._dirs[:4],validate)
 
-    def display(self, blank=' ', vflip = False):
+    def bounds(self):
+        """Return bounds of the grid in format (xmin, ymin, xmax, ymax)"""
+        return (self.xmin,self.ymin,self.xmax,self.ymax)
+
+    def scan(self,map):
+        """
+        Take a list of strings or lists (map) and enter into the grid.
+        """
+        y = 0
+        for row in map:
+            x = 0
+            for v in list(row):
+                self[(x,y)] = v
+                x += 1
+            y += 1
+        
+    def display(self, blank=' ', vflip = False, sep=''):
         """
         Display the grid.
         Always shows a rectangle which is exactly large enough to
@@ -193,6 +209,7 @@ class Grid:
         Blank cells are displayed with a space, unless blank is set.
         By default, higher the y axis increases upwards, like in math.
         If vflip is True, the y axis increases downwards.
+        sep is put between each cell
         """
         if vflip:
             rows = range(self.ymin, self.ymax+1)
@@ -202,6 +219,8 @@ class Grid:
         for y in rows:
             out = ''
             for x in range(self.xmin,self.xmax + 1):
+                if out:
+                    out += sep
                 if (x,y) in self.raster:
                     out += str(self.raster[(x,y)])
                 else:
@@ -327,6 +346,18 @@ if __name__ == '__main__':
 
     print 'here it is upside down and shaded in with .s'
     g.display(blank='.', vflip=True)
+
+    print 'now lets print a little xmas art'
+    sleighart = """\
+__     _  __ 
+| \__ `\O/  `--  {}    \}    {/
+\    \_(~)/______/=____/=____/=*
+ \=======/    //\\  >\/> || \> 
+----`---`---  `` `` ```` `` ``
+""".split('\n')
+    sleigh = Grid()
+    sleigh.scan(sleighart)
+    sleigh.display(vflip=True)
 
     # HexGrid, HexPoint
     print '-'*20
