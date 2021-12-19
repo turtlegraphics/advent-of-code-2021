@@ -79,7 +79,7 @@ class Point3d:
             self.x, self.y, self.z = x,y,z
 
     def __copy__(self):
-        return Point(self)
+        return Point3d(self)
 
     def __iter__(self):
         yield self.x
@@ -92,7 +92,14 @@ class Point3d:
     def dist(self, other):
         """Euclidean distance."""
         return abs(self - other)
+    
+    def dist2(self,other):
+        """Euclidean distance, squared"""
+        return ((self.x-other.x) ** 2 + (self.y-other.y) ** 2 + (self.z-other.z) ** 2)
 
+    def mandist(self,other):
+        """Manhattan distance"""
+        return abs(self.x - other.x) + abs(self.y - other.y) + abs(self.z - other.z)
     def __eq__(self,other):
         return (self.x == other.x) and (self.y == other.y) and (self.z == other.z)
 
@@ -378,6 +385,20 @@ if __name__ == '__main__':
     assert(r - q == Point(3,8))
     assert(p != q)
 
+    # Point 3d
+    print '-'*20
+    print "Point3d class"
+    print '-'*20
+    p = Point3d(1,2,3)
+    q = Point3d(-1,5,2)
+    r = Point3d(0,0,0)
+    print 'p=%s,q=%s,r=%s' % (str(p),str(q),str(r))
+    print 'q and q are',p.dist(q),'apart'
+    print 'p + q = ',p+q
+    print 'r - q = ',r-q
+    assert(r - q == Point3d(1,-5,-2))
+    assert(p != q)
+    
     # Grid
     print '-'*20
     print "Grid class"
