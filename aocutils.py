@@ -69,11 +69,11 @@ class Point3d:
         Construct from another point, an (x,y,z) tuple,
         or x y z passed as values.
         """
-        if isinstance(x,Point):
+        if isinstance(x,Point3d):
             self.x = x.x
             self.y = x.y
             self.z = x.z
-        elif isinstance(x,tuple):
+        elif isinstance(x,tuple) or isinstance(x,list):
             self.x, self.y, self.z = x
         else:
             self.x, self.y, self.z = x,y,z
