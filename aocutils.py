@@ -60,6 +60,70 @@ def mul_inv(a, b):
     if x1 < 0: x1 += b0
     return x1
 
+class Point3d:
+    """
+    A 3d point class
+    """
+    def __init__(self, x=0, y=0, z=0):
+        """
+        Construct from another point, an (x,y,z) tuple,
+        or x y z passed as values.
+        """
+        if isinstance(x,Point):
+            self.x = x.x
+            self.y = x.y
+            self.z = x.z
+        elif isinstance(x,tuple):
+            self.x, self.y, self.z = x
+        else:
+            self.x, self.y, self.z = x,y,z
+
+    def __copy__(self):
+        return Point(self)
+
+    def __iter__(self):
+        yield self.x
+        yield self.y
+        yield self.z
+
+    def __abs__(self):
+        return sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+
+    def dist(self, other):
+        """Euclidean distance."""
+        return abs(self - other)
+
+    def __eq__(self,other):
+        return (self.x == other.x) and (self.y == other.y) and (self.z == other.z)
+
+    def __ne__(self,other):
+        return not self == other
+
+    def __add__(self,other):
+        newpt = self.__copy__()
+        newpt += other
+        return newpt
+
+    def __iadd__(self,other):
+        self.x += other.x
+        self.y += other.y
+        self.z += other.z
+        return self
+
+    def __sub__(self,other):
+        newpt = self.__copy__()
+        newpt -= other
+        return newpt
+
+    def __isub__(self,other):
+        self.x -= other.x
+        self.y -= other.y
+        self.z -= other.z
+        return self
+
+    def __str__(self):
+        return '(%s,%s,%2)' % (str(self.x),str(self.y),str(self.z))
+
 class Point:
     """
     A 2d point class
