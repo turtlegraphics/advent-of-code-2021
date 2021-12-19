@@ -122,7 +122,7 @@ class Point3d:
         return self
 
     def __str__(self):
-        return '(%s,%s,%2)' % (str(self.x),str(self.y),str(self.z))
+        return '(%s,%s,%s)' % (str(self.x),str(self.y),str(self.z))
 
 class Point:
     """
