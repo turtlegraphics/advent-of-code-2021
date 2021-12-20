@@ -260,17 +260,30 @@ class Grid:
         """Return bounds of the grid in format (xmin, ymin, xmax, ymax)"""
         return (self.xmin,self.ymin,self.xmax,self.ymax)
 
-    def scan(self,map):
+    def scan(self,map,vflip=True):
         """
-        Take a list of strings or lists (map) and enter into the grid.
+        Take a list of strings or lists (map) and scan into the grid.
+
+        If vflip is True, the first line of map is at positive y and
+        the last line of map is at y=0.  For a map coming from a text file,
+        this is probably what you want.
+
+        If vflip is False, the first line of map is at y=0 and the lines
+        proceed upwards from there.
         """
-        y = 0
+        if vflip:
+            y = len(map)-2
+        else:
+            y = 0
         for row in map:
             x = 0
             for v in list(row):
                 self[(x,y)] = v
                 x += 1
-            y += 1
+            if vflip:
+                y -= 1
+            else:
+                y += 1
         
     def display(self, blank=' ', vflip = False, sep=''):
         """
@@ -442,7 +455,8 @@ __     _  __
 """.split('\n')
     sleigh = Grid()
     sleigh.scan(sleighart)
-    sleigh.display(vflip=True)
+    sleigh.display()
+    print sleigh.bounds()
 
     # HexGrid, HexPoint
     print '-'*20
