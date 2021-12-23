@@ -22,6 +22,13 @@ movecost = {0:1,
             2:100,
             3:1000}
 
+def pathprint(path):
+    step = 1
+    for move in path:
+        fr,to = move
+        print '  step %2d:' % step,': move',fr,'to',to
+        step += 1
+        
 class Board:
     def __init__(self,rooms):
         """size is the size of each room."""
@@ -159,7 +166,7 @@ class Board:
         self[to] = who
         return self.dist(fr,to)*movecost[who]
     
-def solve(b,depth=0,cost=0):
+def solve(b,depth=0,cost=0,path=[]):
     global mincost
     if cost >= mincost:
         return
@@ -172,6 +179,7 @@ def solve(b,depth=0,cost=0):
         
     if complete == 4:
         print 'solved, cost =',cost
+        pathprint(path)
         assert(cost < mincost)
         mincost = cost
 
@@ -180,12 +188,12 @@ def solve(b,depth=0,cost=0):
     for m in moves:
         fr,to = m
         mcost = b.move(fr,to)
-        solve(b,depth+1,cost+mcost)
+        solve(b,depth+1,cost+mcost,path + [m])
         b.move(to,fr)
 
-start_0 = ['A','B','D','C']
+start_test0 = ['A','B','D','C']
 start_1 = ['BC','BC','DA','DA']
-start_t1 =['AA','CB','DB','DC']
+start_test1 =['AA','CB','DB','DC']
 start_2 = ['BDDC','BCBC','DBAA','DACA']
 
 def parse(state):
@@ -198,6 +206,16 @@ def parse(state):
 mincost = 1000*100000000
 
 b = Board(parse(start_2))
+
+print 'Going to solve this board:'
+print b
+
+print """
+This could take a very long time to finish, but not so long to produce the
+correct answer.  It produces output when it finds a new best solution.
+The output gives the new best score, as well as the moves needed to get
+that score.  The moves are just a list of from-to pairs.
+"""
 
 solve(b)
 
