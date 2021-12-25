@@ -272,7 +272,7 @@ class Grid:
         proceed upwards from there.
         """
         if vflip:
-            y = len(map)-2
+            y = len(map)-1
         else:
             y = 0
         for row in map:
