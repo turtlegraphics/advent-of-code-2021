@@ -6,7 +6,7 @@
 #
 import sys
 import re
-sys.path.append("..")
+sys.path.append("../../Advent 2022")
 import aocutils
 
 args = aocutils.parse_args()
@@ -152,11 +152,11 @@ for line in inputlines:
 
 for i in range(len(scanners)-1):
     j = len(scanners)-i-2
-    print j
+    print (j)
     for k in range(j+1,len(scanners)):
         scanners[j].align(scanners[k])
 
-print 'part 1:', len(scanners[0].points)
+print ('part 1:', len(scanners[0].points))
 
 for s in scanners[1:]:
     s.align(scanners[0])
@@ -164,7 +164,7 @@ for s in scanners[1:]:
 maxd = 0
 count = len(scanners)
 for s in scanners:
-    print count
+    print (count)
     count -= 1
     for t in scanners:
         d = s.align(t,quick=True)
@@ -172,4 +172,4 @@ for s in scanners:
         if man > maxd:
             maxd = man
 
-print 'part 2:',maxd
+print ('part 2:',maxd)
